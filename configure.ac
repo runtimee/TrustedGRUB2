@@ -391,10 +391,10 @@ AC_CHECK_FUNCS(posix_memalign memalign getextmntent)
 AC_CHECK_HEADERS(sys/param.h sys/mount.h sys/mnttab.h limits.h)
 
 # glibc 2.25 still includes sys/sysmacros.h in sys/types.h but emits deprecation
-# warning which causes compilation failure later with -Werror. So use -Werror here
+# warning which causes compilation failure later with. So use here
 # as well to force proper sys/sysmacros.h detection.
 SAVED_CFLAGS="$CFLAGS"
-CFLAGS="$HOST_CFLAGS -Werror"
+CFLAGS="$HOST_CFLAGS"
 AC_HEADER_MAJOR
 CFLAGS="$SAVED_CFLAGS"
 
@@ -422,7 +422,7 @@ AC_SUBST([LIBUTIL])
 
 AC_CACHE_CHECK([whether -Wtrampolines work], [grub_cv_host_cc_wtrampolines], [
   SAVED_CFLAGS="$CFLAGS"
-  CFLAGS="$HOST_CFLAGS -Wtrampolines -Werror"
+  CFLAGS="$HOST_CFLAGS -Wtrampolines"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdarg.h>
 int va_arg_func (int fixed, va_list args);]], [[]])],
       [grub_cv_host_cc_wtrampolines=yes],
@@ -468,7 +468,7 @@ AC_CACHE_CHECK([which extra warnings work], [grub_cv_cc_w_extra_flags], [
   SAVED_CFLAGS="$CFLAGS"
   grub_cv_cc_w_extra_flags=
   for x in $EXTRA_WARN_FLAGS; do
-      CFLAGS="$HOST_CFLAGS $x -Werror"
+      CFLAGS="$HOST_CFLAGS $x"
       AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [flag=1], [flag=0])
       if test x$flag = x1 ; then
          grub_cv_cc_w_extra_flags="$grub_cv_cc_w_extra_flags $x"
@@ -544,7 +544,7 @@ AC_CACHE_CHECK([which extra warnings work], [grub_cv_target_cc_w_extra_flags], [
 
   grub_cv_target_cc_w_extra_flags=
   for x in $EXTRA_WARN_FLAGS; do
-      CFLAGS="$TARGET_CFLAGS $x -Werror"
+      CFLAGS="$TARGET_CFLAGS $x"
       AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 asm (".globl start; start:");
 void __main (void);
@@ -579,7 +579,7 @@ if test x$target_cpu = xpowerpc -o x$target_cpu = xmips; then
       if test x"$grub_cv_target_cc_big_endian" != xno ; then
         break
       fi
-      CFLAGS="$TARGET_CFLAGS $cand -Werror"
+      CFLAGS="$TARGET_CFLAGS $cand"
       AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 #if defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__) && (__ORDER_BIG_ENDIAN__ != __BYTE_ORDER__)
 #error still little endian
@@ -614,7 +614,7 @@ elif test x$target_cpu = xmipsel; then
       if test x"$grub_cv_target_cc_little_endian" != xno ; then
         break
       fi
-      CFLAGS="$TARGET_CFLAGS $cand -Werror"
+      CFLAGS="$TARGET_CFLAGS $cand"
       AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 #if defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__) && (__ORDER_BIG_ENDIAN__ == __BYTE_ORDER__)
 #error still big endian
@@ -652,7 +652,7 @@ if test "x$target_cpu" = xmips || test "x$target_cpu" = xmipsel ; then
       if test x"$grub_cv_target_cc_mips_o32_abi" != xno ; then
         break
       fi
-      CFLAGS="$TARGET_CFLAGS $arg -Werror"
+      CFLAGS="$TARGET_CFLAGS $arg"
       AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 #if !defined(_ABIO32) || !defined(_MIPS_SIM) || (_MIPS_SIM != _ABIO32)
 #error not o32 ABI
@@ -742,7 +742,7 @@ fi
 # on mips redirect cache flushing function to non-existant one.
 if test "x$target_cpu" = xmips || test "x$target_cpu" = xmipsel ; then
   AC_CACHE_CHECK([whether -mflush-func=grub_red_herring works], [grub_cv_cc_mflush_func], [
-    CFLAGS="$TARGET_CFLAGS -mflush-func=grub_red_herring -Werror"
+    CFLAGS="$TARGET_CFLAGS -mflush-func=grub_red_herring"
     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
         [grub_cv_cc_mflush_func=yes],
 	[grub_cv_cc_mflush_func=no])
@@ -757,14 +757,14 @@ fi
 # Force no alignment to save space on i386.
 if test "x$target_cpu" = xi386; then
   AC_CACHE_CHECK([whether -falign-loops works], [grub_cv_cc_falign_loop], [
-    CFLAGS="$TARGET_CFLAGS -falign-loops=1 -Werror"
+    CFLAGS="$TARGET_CFLAGS -falign-loops=1"
     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
         [grub_cv_cc_falign_loop=yes],
 	[grub_cv_cc_falign_loop=no])
   ])
 
   AC_CACHE_CHECK([whether -malign-loops works], [grub_cv_cc_malign_loop], [
-    CFLAGS="$TARGET_CFLAGS -malign-loops=1 -Werror"
+    CFLAGS="$TARGET_CFLAGS -malign-loops=1"
     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
         [grub_cv_cc_malign_loop=yes],
 	[grub_cv_cc_malign_loop=no])
@@ -778,7 +778,7 @@ if test "x$target_cpu" = xi386; then
 fi
 
 AC_CACHE_CHECK([whether -freg-struct-return works], [grub_cv_cc_freg_struct_return], [
-    CFLAGS="$TARGET_CFLAGS -freg-struct-return -Werror"
+    CFLAGS="$TARGET_CFLAGS -freg-struct-return"
     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
         [grub_cv_cc_freg_struct_return=yes],
 	[grub_cv_cc_freg_struct_return=no])
@@ -802,12 +802,12 @@ if test x"$platform" != xemu ; then
   AC_CACHE_CHECK([for options to get soft-float], grub_cv_target_cc_soft_float, [
     grub_cv_target_cc_soft_float=no
     if test "x$target_cpu" = xarm64; then
-       CFLAGS="$TARGET_CFLAGS -mgeneral-regs-only -Werror"
+       CFLAGS="$TARGET_CFLAGS -mgeneral-regs-only"
        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
 		         [grub_cv_target_cc_soft_float="-mgeneral-regs-only"], [])
     fi
     if test "x$target_cpu" = xia64; then
-       CFLAGS="$TARGET_CFLAGS -mno-inline-float-divide -mno-inline-sqrt -Werror"
+       CFLAGS="$TARGET_CFLAGS -mno-inline-float-divide -mno-inline-sqrt"
        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
 		         [grub_cv_target_cc_soft_float="-mno-inline-float-divide -mno-inline-sqrt"], [])
     fi
@@ -817,7 +817,7 @@ if test x"$platform" != xemu ; then
       if test x"$grub_cv_target_cc_soft_float" != xno ; then
         break
       fi
-      CFLAGS="$TARGET_CFLAGS $cand -Werror"
+      CFLAGS="$TARGET_CFLAGS $cand"
       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
 		        [grub_cv_target_cc_soft_float="$cand"], [])
     done
@@ -848,7 +848,7 @@ if test x"$target_cpu" = xsparc64 ; then
       if test x"$grub_cv_target_cc_mno_app_regs" != xno ; then
         break
       fi
-      CFLAGS="$TARGET_CFLAGS $cand -Werror"
+      CFLAGS="$TARGET_CFLAGS $cand"
       CPPFLAGS="$TARGET_CPPFLAGS"
       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
 		        [grub_cv_target_cc_mno_app_regs="$cand"], [])
@@ -872,7 +872,7 @@ if test x"$target_cpu" = xsparc64 ; then
         break
       fi
       LDFLAGS="$TARGET_LDFLAGS $cand -nostdlib -static"
-      CFLAGS="$TARGET_CFLAGS -Werror"
+      CFLAGS="$TARGET_CFLAGS"
       AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 	    asm (".globl start; start:");
 	    void __main (void);
@@ -1159,7 +1159,7 @@ if test "x$target_cpu" = xarm; then
       if test x"$grub_cv_target_cc_mno_movt" != xno ; then
         break
       fi
-      CFLAGS="$TARGET_CFLAGS $cand -Werror"
+      CFLAGS="$TARGET_CFLAGS $cand"
       CPPFLAGS="$TARGET_CPPFLAGS"
       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
 		        [grub_cv_target_cc_mno_movt="$cand"], [])
@@ -1171,7 +1171,7 @@ if test "x$target_cpu" = xarm; then
     TARGET_CPPFLAGS="$TARGET_CPPFLAGS $grub_cv_target_cc_mno_movt"
   fi
   AC_CACHE_CHECK([whether option -mthumb-interwork works], grub_cv_cc_mthumb_interwork, [
-    CFLAGS="$TARGET_CFLAGS -mthumb-interwork -Werror"
+    CFLAGS="$TARGET_CFLAGS -mthumb-interwork"
     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
 		      [grub_cv_cc_mthumb_interwork=yes],
 		      [grub_cv_cc_mthumb_interwork=no])
@@ -1185,7 +1185,7 @@ if test "x$target_cpu" = xarm; then
 fi
 
 AC_CACHE_CHECK([whether option -Qn works], grub_cv_target_cc_qn, [
-  CFLAGS="$TARGET_CFLAGS -Qn -Werror"
+  CFLAGS="$TARGET_CFLAGS -Qn"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
 		    [grub_cv_target_cc_qn=yes],
 		    [grub_cv_target_cc_qn=no])])
@@ -1266,7 +1266,7 @@ if test "$target_cpu" = arm; then
   AC_CACHE_CHECK([for compile options to get strict alignment], [grub_cv_target_cc_strict_align], [
     grub_cv_target_cc_strict_align=
     for arg in -mno-unaligned-access "-Xclang -mstrict-align" -mstrict-align; do
-      CFLAGS="$TARGET_CFLAGS $arg -Werror"
+      CFLAGS="$TARGET_CFLAGS $arg"
       LDFLAGS="$TARGET_LDFLAGS"
       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [flag=1], [flag=0])
       if test x"$flag" = x1; then
@@ -1367,7 +1367,7 @@ fi
 fi
 
 AC_CACHE_CHECK([whether -Wtrampolines work], [grub_cv_cc_wtrampolines], [
-  CFLAGS="$TARGET_CFLAGS -Wtrampolines -Werror"
+  CFLAGS="$TARGET_CFLAGS -Wtrampolines"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdarg.h>
 int va_arg_func (int fixed, va_list args);]], [[]])],
       [grub_cv_cc_wtrampolines=yes],
@@ -1833,10 +1833,10 @@ AC_SUBST(VERSION)
 
 AC_ARG_ENABLE([werror],
 	      [AS_HELP_STRING([--disable-werror],
-                             [do not use -Werror when building GRUB])])
+                             [do not use when building GRUB])])
 if test x"$enable_werror" != xno ; then
-  TARGET_CFLAGS="$TARGET_CFLAGS -Werror"
-  HOST_CFLAGS="$HOST_CFLAGS -Werror"
+  TARGET_CFLAGS="$TARGET_CFLAGS"
+  HOST_CFLAGS="$HOST_CFLAGS"
 fi
 
 TARGET_CPP="$TARGET_CC -E"
