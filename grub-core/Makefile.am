@@ -409,7 +409,7 @@ if COND_ENABLE_EFIEMU
 efiemu32.o: efiemu/runtime/efiemu.c $(TARGET_OBJ2ELF)
 	-rm -f $@
 	-rm -f $@.bin
-	$(TARGET_CC) $(DEFS) $(INCLUDES) $(CPPFLAGS_EFIEMU) $(CPPFLAGS_DEFAULT) -m32 -Wall -Werror -nostdlib -static -O2 -c -o $@.bin $<
+	$(TARGET_CC) $(DEFS) $(INCLUDES) $(CPPFLAGS_EFIEMU) $(CPPFLAGS_DEFAULT) -m32 -Wall -nostdlib -static -O2 -c -o $@.bin $<
 	if test "x$(TARGET_APPLE_LINKER)" = x1; then \
 	  $(TARGET_OBJCONV) -felf32 -nu -nd $@.bin $@ || exit 1; \
 	  rm -f $@.bin ; \
@@ -422,10 +422,10 @@ efiemu32.o: efiemu/runtime/efiemu.c $(TARGET_OBJ2ELF)
 
 # Link format -arch,x86_64 means Apple linker
 efiemu64_c.o: efiemu/runtime/efiemu.c
-	$(TARGET_CC) $(DEFS) $(INCLUDES) $(CPPFLAGS_EFIEMU) $(CPPFLAGS_DEFAULT) -m64 -nostdlib -Wall -Werror -O2 -mcmodel=large -mno-red-zone -c -o $@ $<
+	$(TARGET_CC) $(DEFS) $(INCLUDES) $(CPPFLAGS_EFIEMU) $(CPPFLAGS_DEFAULT) -m64 -nostdlib -Wall -O2 -mcmodel=large -mno-red-zone -c -o $@ $<
 
 efiemu64_s.o: efiemu/runtime/efiemu.S
-	$(TARGET_CC) $(DEFS) $(INCLUDES) $(CPPFLAGS_EFIEMU) $(CPPFLAGS_DEFAULT) -m64 -Wall -Werror -nostdlib -O2 -mcmodel=large -mno-red-zone -c -o $@ $<
+	$(TARGET_CC) $(DEFS) $(INCLUDES) $(CPPFLAGS_EFIEMU) $(CPPFLAGS_DEFAULT) -m64 -Wall -nostdlib -O2 -mcmodel=large -mno-red-zone -c -o $@ $<
 
 efiemu64.o: efiemu64_c.o efiemu64_s.o $(TARGET_OBJ2ELEF)
 	-rm -f $@

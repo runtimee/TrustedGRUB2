@@ -80,11 +80,11 @@ CLEANFILES += garbage-gen$(BUILD_EXEEXT)
 EXTRA_DIST += util/garbage-gen.c
 
 build-grub-gen-asciih$(BUILD_EXEEXT): util/grub-gen-asciih.c
-	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS) -DGRUB_MKFONT=1 -DGRUB_BUILD=1 -DGRUB_UTIL=1 $^ $(build_freetype_cflags) $(build_freetype_libs) -Wall -Werror
+	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS) -DGRUB_MKFONT=1 -DGRUB_BUILD=1 -DGRUB_UTIL=1 $^ $(build_freetype_cflags) $(build_freetype_libs) -Wall
 CLEANFILES += build-grub-gen-asciih$(BUILD_EXEEXT)
 
 build-grub-gen-widthspec$(BUILD_EXEEXT): util/grub-gen-widthspec.c
-	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS) -DGRUB_MKFONT=1 -DGRUB_BUILD=1 -DGRUB_UTIL=1 $^ $(build_freetype_cflags) $(build_freetype_libs) -Wall -Werror
+	$(BUILD_CC) -o $@ -I$(top_srcdir)/include $(BUILD_CFLAGS) $(BUILD_CPPFLAGS) $(BUILD_LDFLAGS) -DGRUB_MKFONT=1 -DGRUB_BUILD=1 -DGRUB_UTIL=1 $^ $(build_freetype_cflags) $(build_freetype_libs) -Wall
 CLEANFILES += build-grub-gen-widthspec$(BUILD_EXEEXT)
 
 if COND_STARFIELD
