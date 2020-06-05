@@ -1,6 +1,6 @@
 After installing the grub2 into MBR, the boot may fail and stuck with `No TPM found error`. One may need to restore the bootloader back to sane.
 
-For Fedora, the [reference](https://docs.pagure.org/docs-fedora/the-grub2-bootloader.html) has detailed steps, under `Restoring the bootloader using the Live disk.`
+For Fedora, the [reference](https://docs.pagure.org/docs-fedora/the-grub2-bootloader.html) and [another](https://docs.fedoraproject.org/en-US/quick-docs/bootloading-with-grub2/) have detailed steps, under `Restoring the bootloader using the Live disk.`
 
 Steps copy-pasted below:
 
