@@ -68,3 +68,14 @@ $ exit
 ```
 $ sudo systemctl reboot
 ```
+
+----
+Side note:
+To check the beginning bytes:
+```
+sudo dd bs=512 count=1 if=/dev/sda | od -Ax -tx1z -v
+```
+Or, to wipe out the beginning bytes:
+```
+sudo dd if=/dev/zero of=/dev/sda bs=446 count=1
+```
